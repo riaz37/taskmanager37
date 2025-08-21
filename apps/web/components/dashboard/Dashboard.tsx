@@ -30,16 +30,25 @@ const Dashboard: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       <Header
         user={user}
         onLogout={handleLogout}
         onCreateTask={handleCreateTask}
       />
-      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <Suspense fallback={<LoadingState count={3} />}>
-          <TaskList />
-        </Suspense>
+      <main className="container py-8">
+        <div className="space-y-8">
+          <div className="space-y-2">
+            <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+            <p className="text-muted-foreground">
+              Welcome back, {user.name}! Here's an overview of your tasks.
+            </p>
+          </div>
+          
+          <Suspense fallback={<LoadingState count={3} />}>
+            <TaskList />
+          </Suspense>
+        </div>
 
         <Suspense fallback={<LoadingState count={1} />}>
           <CreateTaskDialog

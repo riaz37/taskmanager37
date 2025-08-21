@@ -10,6 +10,8 @@ import EditTaskDialog from './EditTaskDialog';
 import LoadingState from '@repo/ui/LoadingState';
 import EmptyState from '@repo/ui/EmptyState';
 import ErrorState from '@repo/ui/ErrorState';
+import { Card, CardContent, CardHeader, CardTitle } from '@repo/ui/card';
+import { CheckCircle, Clock, TrendingUp } from 'lucide-react';
 
 const TaskList: React.FC = () => {
   const { 
@@ -72,6 +74,12 @@ const TaskList: React.FC = () => {
     setEditingTask(null);
   };
 
+  // Calculate statistics
+  const totalTasks = tasks?.length || 0;
+  const completedTasks = tasks?.filter((task: Task) => task.completed).length || 0;
+  const pendingTasks = totalTasks - completedTasks;
+  const completionRate = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+
   if (loading) {
     return <LoadingState count={3} />;
   }
@@ -88,7 +96,49 @@ const TaskList: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
+      {/* Statistics Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <Card className="border-border/50">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Tasks</CardTitle>
+            <CheckCircle className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{totalTasks}</div>
+            <p className="text-xs text-muted-foreground">
+              {completedTasks} completed, {pendingTasks} pending
+            </p>
+          </CardContent>
+        </Card>
+        
+        <Card className="border-border/50">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Completion Rate</CardTitle>
+            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{completionRate}%</div>
+            <p className="text-xs text-muted-foreground">
+              {completedTasks} of {totalTasks} tasks completed
+            </p>
+          </CardContent>
+        </Card>
+        
+        <Card className="border-border/50">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Pending Tasks</CardTitle>
+            <Clock className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{pendingTasks}</div>
+            <p className="text-xs text-muted-foreground">
+              {pendingTasks > 0 ? 'Still in progress' : 'All caught up!'}
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+
       <TaskFilters 
         searchTerm={searchTerm}
         filterStatus={filterStatus}
@@ -101,7 +151,7 @@ const TaskList: React.FC = () => {
       />
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {tasks.map((task) => (
+        {tasks.map((task: Task) => (
           <TaskCard
             key={task._id}
             task={task}

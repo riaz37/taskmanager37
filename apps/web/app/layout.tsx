@@ -3,13 +3,19 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/lib/contexts/auth-context";
 import { LoadingProvider } from "@/lib/contexts/loading-context";
-import { Toaster } from "@/components/ui/sonner";
+import { Toaster } from "@repo/ui/sonner";
+import { ThemeProvider } from "@repo/ui/theme-provider";
+import { ThemeTransitionInitializer } from "@/components/ThemeTransitionInitializer";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
 
 export const metadata: Metadata = {
-  title: "Task Manager App",
-  description: "A modern task management application built with Next.js",
+  title: "TaskFlow - Modern Task Management",
+  description:
+    "A beautiful, intuitive task management application built with Next.js and modern design principles",
 };
 
 export default function RootLayout({
@@ -18,19 +24,34 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <LoadingProvider>
-          <AuthProvider>
-            {children}
-            <Toaster 
-              position="top-right"
-              richColors
-              closeButton
-              duration={4000}
-            />
-          </AuthProvider>
-        </LoadingProvider>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${inter.variable} font-sans antialiased`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <LoadingProvider>
+            <AuthProvider>
+              <ThemeTransitionInitializer />
+              {children}
+              <Toaster
+                position="top-right"
+                richColors
+                closeButton
+                duration={4000}
+                toastOptions={{
+                  style: {
+                    background: "hsl(var(--background))",
+                    color: "hsl(var(--foreground))",
+                    border: "1px solid hsl(var(--border))",
+                  },
+                }}
+              />
+            </AuthProvider>
+          </LoadingProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -1,9 +1,10 @@
 'use client';
 
 import React from 'react';
-import { TaskPaginationProps } from '@repo/types/react';
+import { TaskPaginationProps } from '@repo/types/src/react';
 import { Button } from '@repo/ui/button';
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@repo/ui/select';
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, List } from 'lucide-react';
 
 const TaskPagination: React.FC<TaskPaginationProps> = ({
   currentPage,
@@ -52,19 +53,23 @@ const TaskPagination: React.FC<TaskPaginationProps> = ({
   }
 
   return (
-    <div className="flex items-center justify-between bg-white p-4 rounded-lg shadow-sm border">
-      <div className="flex items-center space-x-2">
-        <span className="text-sm text-gray-700">Show</span>
-        <select
-          value={itemsPerPage}
-          onChange={(e) => onItemsPerPageChange(parseInt(e.target.value))}
-          className="border rounded px-2 py-1 text-sm"
-        >
-          <option value={6}>6</option>
-          <option value={12}>12</option>
-          <option value={24}>24</option>
-        </select>
-        <span className="text-sm text-gray-700">per page</span>
+    <div className="flex flex-col sm:flex-row items-center justify-between bg-card border rounded-lg p-6 shadow-sm space-y-4 sm:space-y-0">
+      <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-2">
+          <List className="h-4 w-4 text-muted-foreground" />
+          <span className="text-sm text-muted-foreground">Show</span>
+        </div>
+        <Select value={itemsPerPage.toString()} onValueChange={(value) => onItemsPerPageChange(parseInt(value))}>
+          <SelectTrigger className="w-20 h-8">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="6">6</SelectItem>
+            <SelectItem value="12">12</SelectItem>
+            <SelectItem value="24">24</SelectItem>
+          </SelectContent>
+        </Select>
+        <span className="text-sm text-muted-foreground">per page</span>
       </div>
 
       <div className="flex items-center space-x-2">
@@ -74,59 +79,63 @@ const TaskPagination: React.FC<TaskPaginationProps> = ({
           size="sm"
           onClick={() => onPageChange(1)}
           disabled={currentPage === 1}
+          className="h-8 w-8 p-0"
         >
           <ChevronsLeft className="w-4 h-4" />
         </Button>
 
-      {/* Previous Page */}
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={() => onPageChange(currentPage - 1)}
-        disabled={currentPage === 1}
-      >
-        <ChevronLeft className="w-4 h-4" />
-      </Button>
+        {/* Previous Page */}
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => onPageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="h-8 w-8 p-0"
+        >
+          <ChevronLeft className="w-4 h-4" />
+        </Button>
 
-      {/* Page Numbers */}
-      <div className="flex items-center space-x-1">
-        {getPageNumbers().map((page, index) => (
-          <React.Fragment key={index}>
-            {page === '...' ? (
-              <span className="px-2 py-1 text-gray-500">...</span>
-            ) : (
-              <Button
-                variant={currentPage === page ? "default" : "outline"}
-                size="sm"
-                onClick={() => onPageChange(page as number)}
-                className="min-w-[40px]"
-              >
-                {page}
-              </Button>
-            )}
-          </React.Fragment>
-        ))}
-      </div>
+        {/* Page Numbers */}
+        <div className="flex items-center space-x-1">
+          {getPageNumbers().map((page, index) => (
+            <React.Fragment key={index}>
+              {page === '...' ? (
+                <span className="px-2 py-1 text-muted-foreground text-sm">...</span>
+              ) : (
+                <Button
+                  variant={currentPage === page ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => onPageChange(page as number)}
+                  className="min-w-[36px] h-8"
+                >
+                  {page}
+                </Button>
+              )}
+            </React.Fragment>
+          ))}
+        </div>
 
-      {/* Next Page */}
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={() => onPageChange(currentPage + 1)}
-        disabled={currentPage === totalPages}
-      >
-        <ChevronRight className="w-4 h-4" />
-      </Button>
+        {/* Next Page */}
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => onPageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className="h-8 w-8 p-0"
+        >
+          <ChevronRight className="w-4 h-4" />
+        </Button>
 
-      {/* Last Page */}
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={() => onPageChange(totalPages)}
-        disabled={currentPage === totalPages}
-      >
-        <ChevronsRight className="w-4 h-4" />
-      </Button>
+        {/* Last Page */}
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => onPageChange(totalPages)}
+          disabled={currentPage === totalPages}
+          className="h-8 w-8 p-0"
+        >
+          <ChevronsRight className="w-4 h-4" />
+        </Button>
       </div>
     </div>
   );
