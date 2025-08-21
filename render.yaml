@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: taskmanager37-server
+    env: node
+    plan: free
+    buildCommand: npm run build:render
+    startCommand: npm run start:render
+    rootDir: .
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: 18
+    healthCheckPath: /health
+    autoDeploy: true 

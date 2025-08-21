@@ -8,17 +8,11 @@ import { Badge } from "@/components/ui/badge";
 import { 
   Plus, 
   LogOut, 
-  User, 
-  Settings, 
-  Sparkles, 
   Bell,
   Search,
   Command,
-  HelpCircle,
-  Keyboard,
-  Palette,
-  Shield,
-  Activity
+  Settings,
+  User
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -28,7 +22,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
   DropdownMenuGroup,
-  DropdownMenuShortcut,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
@@ -52,28 +45,11 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout, onCreateTask }) => {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur-sm border-b border-border/50">
-      <div className="container-modern">
+    <header className="sticky top-0 z-40 w-full bg-background/95 backdrop-blur-sm border-b border-border/50">
+      <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between gap-4">
-          {/* Brand Section */}
-          <div className="flex items-center space-x-4 min-w-0">
-            <div className="flex items-center space-x-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                <Sparkles className="h-5 w-5" />
-              </div>
-              <div className="hidden sm:flex flex-col min-w-0">
-                <h1 className="text-xl font-semibold tracking-tight text-foreground truncate">
-                  TaskFlow
-                </h1>
-                <p className="text-xs text-muted-foreground truncate">
-                  Welcome back, {user.name.split(' ')[0]}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Search Bar - Desktop */}
-          <div className="hidden md:flex flex-1 max-w-md">
+          {/* Search Bar */}
+          <div className="flex flex-1 max-w-md">
             <form onSubmit={handleSearch} className="relative w-full">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -82,7 +58,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout, onCreateTask }) => {
                   placeholder="Search tasks, projects..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full h-9 pl-10 pr-12"
+                  className="input-blue w-full h-9 pl-10 pr-12"
                 />
                 <div className="absolute right-3 top-1/2 -translate-y-1/2">
                   <Badge variant="outline" className="px-1.5 py-0.5 text-xs font-mono">
@@ -96,15 +72,6 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout, onCreateTask }) => {
 
           {/* Actions Section */}
           <div className="flex items-center space-x-2">
-            {/* Search Button - Mobile */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="md:hidden h-9 w-9 rounded-lg hover:bg-muted/50 transition-all duration-200"
-            >
-              <Search className="h-4 w-4" />
-            </Button>
-
             {/* Notifications */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -114,12 +81,12 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout, onCreateTask }) => {
                   className="relative h-9 w-9 rounded-lg hover:bg-muted/50 transition-all duration-200"
                 >
                   <Bell className="h-4 w-4" />
-                  <span className="absolute -top-1 -right-1 h-4 w-4 bg-destructive rounded-full flex items-center justify-center">
-                    <span className="text-xs font-bold text-destructive-foreground">3</span>
+                  <span className="absolute -top-1 -right-1 h-4 w-4 bg-error rounded-full flex items-center justify-center">
+                    <span className="text-xs font-bold text-error-foreground">3</span>
                   </span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-80 glass-card" align="end" sideOffset={8}>
+              <DropdownMenuContent className="w-80" align="end" sideOffset={8}>
                 <DropdownMenuLabel className="flex items-center justify-between">
                   <span>Notifications</span>
                   <Badge variant="secondary" className="text-xs">3 new</Badge>
@@ -161,29 +128,18 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout, onCreateTask }) => {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            {/* Create Task Button - Desktop */}
+            {/* Create Task Button */}
             <Button 
               onClick={onCreateTask} 
               size="default" 
-              className="hidden sm:inline-flex h-9 px-4 font-medium shadow-lg hover:shadow-xl transition-all duration-200 interactive-scale"
+              className="btn-blue-primary shadow-lg hover:shadow-xl transition-all duration-200"
             >
               <Plus className="mr-2 h-4 w-4" />
               New Task
             </Button>
 
-            {/* Create Task Button - Mobile */}
-            <Button
-              onClick={onCreateTask}
-              size="icon"
-              className="sm:hidden h-9 w-9 shadow-lg hover:shadow-xl transition-all duration-200 interactive-scale"
-            >
-              <Plus className="h-4 w-4" />
-            </Button>
-
             {/* Theme Toggle */}
-            <div className="hidden sm:block">
-              <ThemeToggle />
-            </div>
+            <ThemeToggle />
 
             {/* User Menu */}
             <DropdownMenu>
@@ -195,7 +151,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout, onCreateTask }) => {
                 >
                   <Avatar className="h-7 w-7 ring-2 ring-border/50 transition-all hover:ring-primary/30">
                     <AvatarImage src="" alt={user.name} />
-                    <AvatarFallback className="bg-gradient-to-br from-accent to-accent-hover text-accent-foreground text-xs font-semibold">
+                    <AvatarFallback className="bg-gradient-to-br from-primary to-accent text-primary-foreground text-xs font-semibold">
                       {getInitials(user.name)}
                     </AvatarFallback>
                   </Avatar>
@@ -204,7 +160,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout, onCreateTask }) => {
               </DropdownMenuTrigger>
               
               <DropdownMenuContent 
-                className="w-80 glass-card border-0 shadow-2xl" 
+                className="w-64" 
                 align="end" 
                 forceMount
                 sideOffset={8}
@@ -214,7 +170,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout, onCreateTask }) => {
                   <div className="flex items-center space-x-4 p-4 border-b border-border/50">
                     <Avatar className="h-12 w-12 ring-2 ring-border/30">
                       <AvatarImage src="" alt={user.name} />
-                      <AvatarFallback className="bg-gradient-to-br from-accent to-accent-hover text-accent-foreground font-semibold">
+                      <AvatarFallback className="bg-gradient-to-br from-primary to-accent text-primary-foreground font-semibold">
                         {getInitials(user.name)}
                       </AvatarFallback>
                     </Avatar>
@@ -228,7 +184,6 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout, onCreateTask }) => {
                       <div className="flex items-center space-x-2">
                         <div className="h-2 w-2 rounded-full bg-success animate-pulse"></div>
                         <span className="text-xs text-success font-medium">Online</span>
-                        <Badge variant="outline" className="text-xs px-2 py-0.5">Pro</Badge>
                       </div>
                     </div>
                   </div>
@@ -240,73 +195,23 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout, onCreateTask }) => {
                     <DropdownMenuItem className="p-3 cursor-pointer rounded-lg hover:bg-muted/50 focus:bg-muted/50 transition-colors">
                       <User className="mr-3 h-4 w-4 text-muted-foreground" />
                       <span className="font-medium">Profile Settings</span>
-                      <DropdownMenuShortcut>⌘P</DropdownMenuShortcut>
                     </DropdownMenuItem>
                     
                     <DropdownMenuItem className="p-3 cursor-pointer rounded-lg hover:bg-muted/50 focus:bg-muted/50 transition-colors">
                       <Settings className="mr-3 h-4 w-4 text-muted-foreground" />
                       <span className="font-medium">Preferences</span>
-                      <DropdownMenuShortcut>⌘,</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-
-                    <DropdownMenuItem className="p-3 cursor-pointer rounded-lg hover:bg-muted/50 focus:bg-muted/50 transition-colors">
-                      <Activity className="mr-3 h-4 w-4 text-muted-foreground" />
-                      <span className="font-medium">Activity Log</span>
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
 
-                  <DropdownMenuSeparator className="my-2" />
-
-                  {/* Appearance Section */}
-                  <DropdownMenuGroup>
-                    <DropdownMenuItem className="p-3 cursor-pointer rounded-lg hover:bg-muted/50 focus:bg-muted/50 transition-colors">
-                      <Palette className="mr-3 h-4 w-4 text-muted-foreground" />
-                      <span className="font-medium">Appearance</span>
-                    </DropdownMenuItem>
-
-                    <DropdownMenuItem className="p-3 cursor-pointer rounded-lg hover:bg-muted/50 focus:bg-muted/50 transition-colors">
-                      <Keyboard className="mr-3 h-4 w-4 text-muted-foreground" />
-                      <span className="font-medium">Keyboard Shortcuts</span>
-                      <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-
-                    {/* Mobile Theme Toggle */}
-                    <div className="sm:hidden p-3">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center">
-                          <Palette className="mr-3 h-4 w-4 text-muted-foreground" />
-                          <span className="text-sm font-medium">Theme</span>
-                        </div>
-                        <ThemeToggle />
-                      </div>
-                    </div>
-                  </DropdownMenuGroup>
-
-                  <DropdownMenuSeparator className="my-2" />
-
-                  {/* Help & Support */}
-                  <DropdownMenuGroup>
-                    <DropdownMenuItem className="p-3 cursor-pointer rounded-lg hover:bg-muted/50 focus:bg-muted/50 transition-colors">
-                      <HelpCircle className="mr-3 h-4 w-4 text-muted-foreground" />
-                      <span className="font-medium">Help & Support</span>
-                    </DropdownMenuItem>
-
-                    <DropdownMenuItem className="p-3 cursor-pointer rounded-lg hover:bg-muted/50 focus:bg-muted/50 transition-colors">
-                      <Shield className="mr-3 h-4 w-4 text-muted-foreground" />
-                      <span className="font-medium">Privacy & Security</span>
-                    </DropdownMenuItem>
-                  </DropdownMenuGroup>
-                  
                   <DropdownMenuSeparator className="my-2" />
                   
                   {/* Sign Out */}
                   <DropdownMenuItem 
                     onClick={onLogout} 
-                    className="p-3 cursor-pointer rounded-lg hover:bg-destructive/10 focus:bg-destructive/10 text-destructive hover:text-destructive transition-colors"
+                    className="p-3 cursor-pointer rounded-lg hover:bg-error/10 focus:bg-error/10 text-error hover:text-error transition-colors"
                   >
                     <LogOut className="mr-3 h-4 w-4" />
                     <span className="font-medium">Sign Out</span>
-                    <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
                   </DropdownMenuItem>
                 </div>
               </DropdownMenuContent>

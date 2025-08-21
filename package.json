@@ -4,12 +4,14 @@
   "scripts": {
     "build": "turbo run build",
     "build:web": "turbo run build --filter=web",
+    "build:server": "turbo run build --filter=server",
+    "build:render": "cd apps/server && npm install && npm run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
-    "build:server": "turbo run build --filter=server",
-    "start:server": "cd apps/server && npm run start:prod"
+    "start:server": "cd apps/server && npm run start:prod",
+    "start:render": "cd apps/server && npm run start:prod"
   },
   "devDependencies": {
     "prettier": "^3.6.2",
