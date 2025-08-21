@@ -1,13 +1,13 @@
-import { CreateTaskRequest, UpdateTaskRequest, Task } from '@repo/types';
-import { apiClient } from '../lib/axios';
+import { CreateTaskRequest, UpdateTaskRequest, Task } from "@repo/types";
+import { apiClient } from "../lib/axios";
 
 class TaskService {
   async getTasks(): Promise<Task[]> {
-    return apiClient.get<Task[]>('/tasks');
+    return apiClient.get<Task[]>("/tasks");
   }
 
   async createTask(data: CreateTaskRequest): Promise<Task> {
-    return apiClient.post<Task>('/tasks', data);
+    return apiClient.post<Task>("/tasks", data);
   }
 
   async updateTask(id: string, data: UpdateTaskRequest): Promise<Task> {
@@ -23,4 +23,4 @@ class TaskService {
   }
 }
 
-export const taskService = new TaskService(); 
+export const taskService = new TaskService();

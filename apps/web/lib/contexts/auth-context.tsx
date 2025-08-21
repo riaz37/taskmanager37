@@ -1,22 +1,25 @@
-'use client';
+"use client";
 
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { AuthContextType, AuthProviderProps, UserData } from '@repo/types/react';
-import { authService } from '@/services/authService';
-
-
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+} from "react";
+import { UserData } from "@repo/types";
+import { AuthContextType, AuthProviderProps } from "@repo/types/src/react";
+import { authService } from "@/services/authService";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };
-
-
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<UserData | null>(null);
@@ -31,7 +34,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           setUser(response.user);
         }
       } catch (error) {
-        console.error('Auth check failed:', error);
+        console.error("Auth check failed:", error);
       } finally {
         setLoading(false);
       }
@@ -46,11 +49,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const response = await authService.login({ email, password });
       setUser(response.user);
       // Redirect to dashboard after successful login
-      if (typeof window !== 'undefined') {
-        window.location.href = '/dashboard';
+      if (typeof window !== "undefined") {
+        window.location.href = "/dashboard";
       }
     } catch (error) {
-      console.error('Login failed:', error);
+      console.error("Login failed:", error);
       throw error;
     } finally {
       setLoading(false);
@@ -63,11 +66,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const response = await authService.register({ name, email, password });
       setUser(response.user);
       // Redirect to dashboard after successful registration
-      if (typeof window !== 'undefined') {
-        window.location.href = '/dashboard';
+      if (typeof window !== "undefined") {
+        window.location.href = "/dashboard";
       }
     } catch (error) {
-      console.error('Registration failed:', error);
+      console.error("Registration failed:", error);
       throw error;
     } finally {
       setLoading(false);
@@ -79,11 +82,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       await authService.logout();
       setUser(null);
       // Redirect to sign-in page after logout
-      if (typeof window !== 'undefined') {
-        window.location.href = '/auth/sign-in';
+      if (typeof window !== "undefined") {
+        window.location.href = "/auth/sign-in";
       }
     } catch (error) {
-      console.error('Logout failed:', error);
+      console.error("Logout failed:", error);
+      // Still redirect even if logout API fails
+      if (typeof window !== "undefined") {
+        window.location.href = "/auth/sign-in";
+      }
     }
   };
 
@@ -96,9 +103,5 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     isAuthenticated: !!user,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
-}; 
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};

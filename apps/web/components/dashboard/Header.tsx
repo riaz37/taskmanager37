@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { HeaderProps } from '@repo/types/src/react';
-import { Button } from '@repo/ui/button';
-import { ThemeToggle } from '@repo/ui/theme-toggle';
-import { Plus, LogOut, User } from 'lucide-react';
+import React from "react";
+import { HeaderProps } from "@repo/types/src/react";
+import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { Plus, LogOut, User, Settings, UserCircle } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,107 +12,141 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@repo/ui/dropdown-menu';
-import { Avatar, AvatarFallback, AvatarImage } from '@repo/ui/avatar';
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const Header: React.FC<HeaderProps> = ({ user, onLogout, onCreateTask }) => {
   const getInitials = (name: string) => {
     return name
-      .split(' ')
-      .map(word => word[0])
-      .join('')
+      .split(" ")
+      .map((word) => word[0])
+      .join("")
       .toUpperCase()
       .slice(0, 2);
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center justify-between">
-        <div className="flex items-center space-x-4">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-            <svg
-              className="h-5 w-5 text-primary-foreground"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
+    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur-md supports-[backdrop-filter]:bg-background/80 shadow-sm">
+      <div className="container mx-auto container-padding">
+        <div className="flex h-16 items-center justify-between">
+          {/* Logo and Brand */}
+          <div className="flex items-center space-x-4">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary/80 shadow-sm">
+              <svg
+                className="h-5 w-5 text-primary-foreground"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
                 strokeWidth={2}
-                d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-              />
-            </svg>
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                />
+              </svg>
+            </div>
+            <h1 className="text-xl font-bold tracking-tight">TaskFlow</h1>
           </div>
-          <h1 className="text-xl font-bold">TaskFlow</h1>
-        </div>
-        
-        <div className="flex items-center space-x-4">
-          <Button onClick={onCreateTask} size="sm" className="hidden sm:flex">
-            <Plus className="mr-2 h-4 w-4" />
-            Create Task
-          </Button>
-          
-          <ThemeToggle />
-          
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="relative h-9 w-9 rounded-full">
-                <Avatar className="h-9 w-9">
-                  <AvatarImage src="" alt={user.name} />
-                  <AvatarFallback className="bg-primary text-primary-foreground">
-                    {getInitials(user.name)}
-                  </AvatarFallback>
-                </Avatar>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56" align="end" forceMount>
-              <DropdownMenuLabel className="font-normal">
-                <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium leading-none">{user.name}</p>
-                  <p className="text-xs leading-none text-muted-foreground">
-                    {user.email}
-                  </p>
-                </div>
-              </DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <User className="mr-2 h-4 w-4" />
-                <span>Profile</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <svg
-                  className="mr-2 h-4 w-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+
+          {/* Actions */}
+          <div className="flex items-center space-x-3">
+            {/* Create Task Button */}
+            <Button 
+              onClick={onCreateTask} 
+              size="sm" 
+              className="hidden sm:inline-flex btn-primary focus-ring h-9 px-4"
+            >
+              <Plus className="mr-2 h-4 w-4" />
+              New Task
+            </Button>
+
+            {/* Mobile Create Button */}
+            <Button
+              onClick={onCreateTask}
+              size="sm"
+              variant="outline"
+              className="sm:hidden h-9 w-9 p-0 focus-ring"
+            >
+              <Plus className="h-4 w-4" />
+            </Button>
+
+            {/* Theme Toggle */}
+            <ThemeToggle />
+
+            {/* User Menu */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  className="relative h-9 w-9 rounded-full p-0 focus-ring hover:bg-muted/50"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                  />
-                </svg>
-                <span>Settings</span>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={onLogout} className="text-destructive">
-                <LogOut className="mr-2 h-4 w-4" />
-                <span>Log out</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+                  <Avatar className="h-9 w-9 ring-2 ring-border/20 transition-all hover:ring-primary/20">
+                    <AvatarImage src="" alt={user.name} />
+                    <AvatarFallback className="bg-gradient-to-br from-primary to-primary/80 text-primary-foreground flex items-center justify-center p-0">
+                      <UserCircle className="h-5 w-5 m-0" />
+                    </AvatarFallback>
+                  </Avatar>
+                </Button>
+              </DropdownMenuTrigger>
+              
+              <DropdownMenuContent 
+                className="w-64 p-2" 
+                align="end" 
+                forceMount
+                sideOffset={8}
+              >
+                {/* User Info */}
+                <DropdownMenuLabel className="p-3 font-normal">
+                  <div className="flex flex-col space-y-2">
+                    <div className="flex items-center space-x-3">
+                      <Avatar className="h-10 w-10">
+                        <AvatarImage src="" alt={user.name} />
+                        <AvatarFallback className="bg-gradient-to-br from-primary to-primary/80 text-primary-foreground flex items-center justify-center p-0">
+                          <UserCircle className="h-6 w-6 m-0" />
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="flex flex-col space-y-1">
+                        <p className="text-sm font-semibold leading-none text-foreground">
+                          {user.name}
+                        </p>
+                        <p className="text-xs leading-none text-muted-foreground truncate">
+                          {user.email}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </DropdownMenuLabel>
+                
+                <DropdownMenuSeparator className="my-2" />
+                
+                {/* Menu Items */}
+                <DropdownMenuItem className="p-3 cursor-pointer focus:bg-muted/50 rounded-md">
+                  <User className="mr-3 h-4 w-4" />
+                  <span>Profile Settings</span>
+                </DropdownMenuItem>
+                
+                <DropdownMenuItem className="p-3 cursor-pointer focus:bg-muted/50 rounded-md">
+                  <Settings className="mr-3 h-4 w-4" />
+                  <span>Preferences</span>
+                </DropdownMenuItem>
+                
+                <DropdownMenuSeparator className="my-2" />
+                
+                <DropdownMenuItem 
+                  onClick={onLogout} 
+                  className="p-3 cursor-pointer focus:bg-destructive/10 text-destructive hover:text-destructive rounded-md"
+                >
+                  <LogOut className="mr-3 h-4 w-4" />
+                  <span>Sign Out</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
       </div>
     </header>
   );
 };
 
-export default Header; 
+export default Header;

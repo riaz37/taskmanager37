@@ -61,12 +61,15 @@ export interface ApiResponse<T = any> {
 }
 
 // Database model interfaces (for backend)
-export interface IUser extends Omit<User, '_id'> {
+export interface IUser extends Omit<User, "_id"> {
   _id: string;
   comparePassword(candidatePassword: string): Promise<boolean>;
 }
 
-export interface ITask extends Omit<Task, '_id' | 'userId'> {
+export interface ITask extends Omit<Task, "_id" | "userId"> {
   _id: string;
   userId: string;
-} 
+}
+
+// Export React types
+export * from './react';

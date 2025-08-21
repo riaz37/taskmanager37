@@ -2,10 +2,25 @@
 
 import React from "react";
 import { TaskCardProps } from "@repo/types/src/react";
-import { Card, CardContent, CardHeader, CardTitle } from "@repo/ui/card";
-import { Badge } from "@repo/ui/badge";
-import { Button } from "@repo/ui/button";
-import { Edit, Trash2, CheckCircle, Circle, Calendar, Clock } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Edit,
+  Trash2,
+  CheckCircle,
+  Circle,
+  Calendar,
+  Clock,
+  MoreHorizontal,
+} from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { formatDistanceToNow } from "date-fns";
 
 const TaskCard: React.FC<TaskCardProps> = ({
@@ -14,58 +29,119 @@ const TaskCard: React.FC<TaskCardProps> = ({
   onDelete,
   onToggle,
 }) => {
-  const getStatusColor = (completed: boolean) => {
-    return completed 
-      ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400' 
-      : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400';
+  const getStatusStyles = (completed: boolean) => {
+    return completed
+      ? "status-completed"
+      : "status-pending";
   };
 
   const getStatusIcon = (completed: boolean) => {
-    return completed ? <CheckCircle className="w-4 h-4" /> : <Circle className="w-4 h-4" />;
+    return completed ? (
+      <CheckCircle className="w-4 h-4" />
+    ) : (
+      <Circle className="w-4 h-4" />
+    );
   };
 
   return (
-    <Card className="card-hover group border-border/50">
-      <CardHeader className="pb-4">
-        <div className="flex items-start justify-between space-y-2">
-          <CardTitle className="text-lg font-semibold leading-tight line-clamp-2 pr-4">
-            {task.title}
-          </CardTitle>
-          <Badge variant="secondary" className={getStatusColor(task.completed)}>
-            <span className="mr-1">{getStatusIcon(task.completed)}</span>
-            {task.completed ? 'Completed' : 'Pending'}
-          </Badge>
+    <Card className="group card-hover border-border/50 bg-card/80 backdrop-blur-sm transition-all duration-300 hover:bg-card">
+      <CardHeader className="pb-4 space-y-3">
+        <div className="flex items-start justify-between">
+          <div className="flex-1 min-w-0">
+            <CardTitle className="text-lg font-semibold leading-tight line-clamp-2 pr-2 group-hover:text-primary transition-colors">
+              {task.title}
+            </CardTitle>
+          </div>
+          
+          <div className="flex items-center space-x-2 flex-shrink-0">
+            <Badge 
+              variant="secondary" 
+              className={`${getStatusStyles(task.completed)} border px-2 py-1 text-xs font-medium`}
+            >
+              <span className="mr-1.5">{getStatusIcon(task.completed)}</span>
+              {task.completed ? "Completed" : "Pending"}
+            </Badge>
+            
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100 transition-opacity focus-ring"
+                >
+                  <MoreHorizontal className="w-4 h-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-40">
+                <DropdownMenuItem onClick={() => onToggle(task)} className="cursor-pointer">
+                  {task.completed ? (
+                    <>
+                      <Circle className="w-4 h-4 mr-2" />
+                      Mark Incomplete
+                    </>
+                  ) : (
+                    <>
+                      <CheckCircle className="w-4 h-4 mr-2" />
+                      Mark Complete
+                    </>
+                  )}
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => onEdit(task)} className="cursor-pointer">
+                  <Edit className="w-4 h-4 mr-2" />
+                  Edit Task
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem 
+                  onClick={() => onDelete(task._id)} 
+                  className="cursor-pointer text-destructive focus:text-destructive"
+                >
+                  <Trash2 className="w-4 h-4 mr-2" />
+                  Delete Task
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
       </CardHeader>
-      
+
       <CardContent className="space-y-4">
         {task.description && (
-          <p className="text-muted-foreground text-sm leading-relaxed line-clamp-3">
-            {task.description}
-          </p>
+          <div className="space-y-2">
+            <p className="text-muted-foreground text-sm leading-relaxed line-clamp-3">
+              {task.description}
+            </p>
+          </div>
         )}
-        
-        <div className="flex items-center justify-between text-xs text-muted-foreground">
+
+        {/* Metadata */}
+        <div className="flex items-center justify-between text-xs text-muted-foreground pt-2 border-t border-border/50">
           <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-1">
-              <Calendar className="w-3 h-3" />
-              <span>Created {formatDistanceToNow(new Date(task.createdAt), { addSuffix: true })}</span>
+            <div className="flex items-center space-x-1.5">
+              <Calendar className="w-3.5 h-3.5" />
+              <span>
+                Created {formatDistanceToNow(new Date(task.createdAt), { addSuffix: true })}
+              </span>
             </div>
-            <div className="flex items-center space-x-1">
-              <Clock className="w-3 h-3" />
-              <span>Updated {formatDistanceToNow(new Date(task.updatedAt), { addSuffix: true })}</span>
-            </div>
+            {task.updatedAt !== task.createdAt && (
+              <div className="flex items-center space-x-1.5">
+                <Clock className="w-3.5 h-3.5" />
+                <span>
+                  Updated {formatDistanceToNow(new Date(task.updatedAt), { addSuffix: true })}
+                </span>
+              </div>
+            )}
           </div>
         </div>
 
-        <div className="flex items-center justify-between pt-2">
+        {/* Action Buttons - Mobile Only */}
+        <div className="flex sm:hidden items-center justify-between pt-3 border-t border-border/50">
           <Button
             variant="outline"
             size="sm"
             onClick={() => onToggle(task)}
-            className="h-8 text-xs"
+            className="h-8 text-xs flex-1 mr-2"
           >
-            {task.completed ? 'Mark Incomplete' : 'Mark Complete'}
+            {task.completed ? "Mark Incomplete" : "Mark Complete"}
           </Button>
 
           <div className="flex items-center space-x-2">
@@ -73,19 +149,17 @@ const TaskCard: React.FC<TaskCardProps> = ({
               variant="outline"
               size="sm"
               onClick={() => onEdit(task)}
-              className="h-8 text-xs"
+              className="h-8 w-8 p-0"
             >
-              <Edit className="w-3 h-3 mr-1" />
-              Edit
+              <Edit className="w-3.5 h-3.5" />
             </Button>
             <Button
               variant="outline"
               size="sm"
               onClick={() => onDelete(task._id)}
-              className="h-8 text-xs text-destructive hover:text-destructive border-destructive hover:bg-destructive hover:text-destructive-foreground"
+              className="h-8 w-8 p-0 text-destructive hover:text-destructive border-destructive/50 hover:bg-destructive hover:text-destructive-foreground"
             >
-              <Trash2 className="w-3 h-3 mr-1" />
-              Delete
+              <Trash2 className="w-3.5 h-3.5" />
             </Button>
           </div>
         </div>

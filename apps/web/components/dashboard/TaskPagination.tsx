@@ -1,10 +1,22 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { TaskPaginationProps } from '@repo/types/src/react';
-import { Button } from '@repo/ui/button';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@repo/ui/select';
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, List } from 'lucide-react';
+import React from "react";
+import { TaskPaginationProps } from "@repo/types/src/react";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+  List,
+} from "lucide-react";
 
 const TaskPagination: React.FC<TaskPaginationProps> = ({
   currentPage,
@@ -16,7 +28,7 @@ const TaskPagination: React.FC<TaskPaginationProps> = ({
   const getPageNumbers = () => {
     const pages = [];
     const maxVisiblePages = 5;
-    
+
     if (totalPages <= maxVisiblePages) {
       for (let i = 1; i <= totalPages; i++) {
         pages.push(i);
@@ -26,25 +38,25 @@ const TaskPagination: React.FC<TaskPaginationProps> = ({
         for (let i = 1; i <= 4; i++) {
           pages.push(i);
         }
-        pages.push('...');
+        pages.push("...");
         pages.push(totalPages);
       } else if (currentPage >= totalPages - 2) {
         pages.push(1);
-        pages.push('...');
+        pages.push("...");
         for (let i = totalPages - 3; i <= totalPages; i++) {
           pages.push(i);
         }
       } else {
         pages.push(1);
-        pages.push('...');
+        pages.push("...");
         for (let i = currentPage - 1; i <= currentPage + 1; i++) {
           pages.push(i);
         }
-        pages.push('...');
+        pages.push("...");
         pages.push(totalPages);
       }
     }
-    
+
     return pages;
   };
 
@@ -59,7 +71,10 @@ const TaskPagination: React.FC<TaskPaginationProps> = ({
           <List className="h-4 w-4 text-muted-foreground" />
           <span className="text-sm text-muted-foreground">Show</span>
         </div>
-        <Select value={itemsPerPage.toString()} onValueChange={(value) => onItemsPerPageChange(parseInt(value))}>
+        <Select
+          value={itemsPerPage.toString()}
+          onValueChange={(value) => onItemsPerPageChange(parseInt(value))}
+        >
           <SelectTrigger className="w-20 h-8">
             <SelectValue />
           </SelectTrigger>
@@ -99,8 +114,10 @@ const TaskPagination: React.FC<TaskPaginationProps> = ({
         <div className="flex items-center space-x-1">
           {getPageNumbers().map((page, index) => (
             <React.Fragment key={index}>
-              {page === '...' ? (
-                <span className="px-2 py-1 text-muted-foreground text-sm">...</span>
+              {page === "..." ? (
+                <span className="px-2 py-1 text-muted-foreground text-sm">
+                  ...
+                </span>
               ) : (
                 <Button
                   variant={currentPage === page ? "default" : "outline"}

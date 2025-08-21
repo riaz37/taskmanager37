@@ -1,34 +1,32 @@
-'use client';
+"use client";
 
-import { LoadingContextType, LoadingProviderProps } from '@repo/types/react';
-import React, { createContext, useContext, useState, ReactNode } from 'react';
-
-
+import { LoadingContextType, LoadingProviderProps } from "@repo/types/react";
+import React, { createContext, useContext, useState, ReactNode } from "react";
 
 const LoadingContext = createContext<LoadingContextType | undefined>(undefined);
 
 export const useLoading = () => {
   const context = useContext(LoadingContext);
   if (context === undefined) {
-    throw new Error('useLoading must be used within a LoadingProvider');
+    throw new Error("useLoading must be used within a LoadingProvider");
   }
   return context;
 };
 
-
-
-export const LoadingProvider: React.FC<LoadingProviderProps> = ({ children }) => {
+export const LoadingProvider: React.FC<LoadingProviderProps> = ({
+  children,
+}) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [loadingMessage, setLoadingMessage] = useState('Loading...');
+  const [loadingMessage, setLoadingMessage] = useState("Loading...");
 
-  const startLoading = (message: string = 'Loading...') => {
+  const startLoading = (message: string = "Loading...") => {
     setLoadingMessage(message);
     setIsLoading(true);
   };
 
   const stopLoading = () => {
     setIsLoading(false);
-    setLoadingMessage('Loading...');
+    setLoadingMessage("Loading...");
   };
 
   const updateLoadingMessage = (message: string) => {
@@ -44,8 +42,6 @@ export const LoadingProvider: React.FC<LoadingProviderProps> = ({ children }) =>
   };
 
   return (
-    <LoadingContext.Provider value={value}>
-      {children}
-    </LoadingContext.Provider>
+    <LoadingContext.Provider value={value}>{children}</LoadingContext.Provider>
   );
-}; 
+};

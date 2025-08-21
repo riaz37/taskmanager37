@@ -1,11 +1,17 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { TaskFiltersProps } from '@repo/types/src/react';
-import { Button } from '@repo/ui/button';
-import { Input } from '@repo/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@repo/ui/select';
-import { Search, Filter, SortAsc, SortDesc, ArrowUpDown } from 'lucide-react';
+import React from "react";
+import { TaskFiltersProps } from "@repo/types/src/react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Search, Filter, SortAsc, SortDesc, ArrowUpDown } from "lucide-react";
 
 const TaskFilters: React.FC<TaskFiltersProps> = ({
   searchTerm,
@@ -22,9 +28,11 @@ const TaskFilters: React.FC<TaskFiltersProps> = ({
       <div className="space-y-4">
         <div className="flex items-center space-x-2">
           <Filter className="h-4 w-4 text-muted-foreground" />
-          <h3 className="text-sm font-medium text-muted-foreground">Filters & Search</h3>
+          <h3 className="text-sm font-medium text-muted-foreground">
+            Filters & Search
+          </h3>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Search */}
           <div className="relative">
@@ -71,7 +79,9 @@ const TaskFilters: React.FC<TaskFiltersProps> = ({
           <div>
             <Button
               variant="outline"
-              onClick={() => onSortOrderChange(sortOrder === "asc" ? "desc" : "asc")}
+              onClick={() =>
+                onSortOrderChange(sortOrder === "asc" ? "desc" : "asc")
+              }
               className="w-full h-10"
             >
               {sortOrder === "asc" ? (

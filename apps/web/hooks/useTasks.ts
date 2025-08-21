@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { Task, CreateTaskRequest, UpdateTaskRequest } from "@repo/types";
-import { UseTasksReturn } from "@repo/types/react";
+import { UseTasksReturn } from "@repo/types/src/react";
 import { taskService } from "@/services/taskService";
 
 export const useTasks = (): UseTasksReturn => {
@@ -12,7 +12,7 @@ export const useTasks = (): UseTasksReturn => {
     "all" | "completed" | "pending"
   >("all");
   const [sortBy, setSortBy] = useState<"createdAt" | "updatedAt" | "title">(
-    "createdAt"
+    "createdAt",
   );
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
   const [currentPage, setCurrentPage] = useState(1);
@@ -28,14 +28,14 @@ export const useTasks = (): UseTasksReturn => {
         (task) =>
           task.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
           (task.description &&
-            task.description.toLowerCase().includes(searchTerm.toLowerCase()))
+            task.description.toLowerCase().includes(searchTerm.toLowerCase())),
       );
     }
 
     // Apply status filter
     if (filterStatus !== "all") {
       filtered = filtered.filter((task) =>
-        filterStatus === "completed" ? task.completed : !task.completed
+        filterStatus === "completed" ? task.completed : !task.completed,
       );
     }
 
@@ -127,7 +127,7 @@ export const useTasks = (): UseTasksReturn => {
 
         const updatedTask = await taskService.updateTask(id, data);
         setTasks((prev) =>
-          prev.map((task) => (task._id === id ? updatedTask : task))
+          prev.map((task) => (task._id === id ? updatedTask : task)),
         );
       } catch (err) {
         const errorMessage =
@@ -136,7 +136,7 @@ export const useTasks = (): UseTasksReturn => {
         throw err;
       }
     },
-    []
+    [],
   );
 
   const deleteTask = useCallback(async (id: string) => {
@@ -159,7 +159,7 @@ export const useTasks = (): UseTasksReturn => {
 
       const toggledTask = await taskService.toggleTask(id);
       setTasks((prev) =>
-        prev.map((task) => (task._id === id ? toggledTask : task))
+        prev.map((task) => (task._id === id ? toggledTask : task)),
       );
     } catch (err) {
       const errorMessage =

@@ -1,5 +1,5 @@
 // Auth validations
-export * from './auth';
+export * from "./auth";
 
 // Task validations
-export * from './task'; 
+export * from "./task";

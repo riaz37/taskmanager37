@@ -26,7 +26,7 @@ export function useThemeTransition() {
       if (e.matches) {
         document.documentElement.style.setProperty(
           "--transition-duration",
-          "0s"
+          "0s",
         );
         document.documentElement.classList.add("reduced-motion");
       } else {
@@ -48,7 +48,7 @@ export function useThemeTransition() {
  */
 function debounce<T extends (...args: any[]) => any>(
   func: T,
-  wait: number
+  wait: number,
 ): (...args: Parameters<T>) => void {
   let timeout: NodeJS.Timeout;
   return (...args: Parameters<T>) => {
@@ -67,7 +67,7 @@ export function createSemanticThemeTransition(
   event: React.MouseEvent,
   callback: () => void,
   isCurrentlyDark: boolean, // Kept for backward compatibility, not used in expanding-only mode
-  duration: number = 1200 // Slower, more comfortable transition
+  duration: number = 1200, // Slower, more comfortable transition
 ): Promise<void> {
   return new Promise((resolve) => {
     // Check for reduced motion preference
@@ -78,7 +78,12 @@ export function createSemanticThemeTransition(
     }
 
     // Fallback for browsers that don't support View Transitions
-    if (!(("startViewTransition" in document) && typeof (document as any).startViewTransition === "function")) {
+    if (
+      !(
+        "startViewTransition" in document &&
+        typeof (document as any).startViewTransition === "function"
+      )
+    ) {
       callback();
       resolve();
       return;
@@ -92,7 +97,7 @@ export function createSemanticThemeTransition(
     const endRadius =
       Math.hypot(
         Math.max(x, window.innerWidth - x),
-        Math.max(y, window.innerHeight - y)
+        Math.max(y, window.innerHeight - y),
       ) * 1.2; // Add 20% buffer for smooth edge coverage
 
     const transition = (document as any).startViewTransition(callback);
@@ -112,7 +117,7 @@ export function createSemanticThemeTransition(
             duration,
             easing: "cubic-bezier(0.25, 0.46, 0.45, 0.94)", // ZenUI-like smooth easing
             pseudoElement: "::view-transition-new(root)", // Always animate the new theme
-          }
+          },
         );
 
         animation.addEventListener("finish", () => resolve());
@@ -126,7 +131,7 @@ export function createSemanticThemeTransition(
 }
 
 // Make the function available globally for the ThemeToggle component
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   (window as any).createSemanticThemeTransition = createSemanticThemeTransition;
 }
 
@@ -137,7 +142,7 @@ if (typeof window !== 'undefined') {
 export function createCircularTransition(
   event: React.MouseEvent,
   callback: () => void,
-  duration: number = 1200
+  duration: number = 1200,
 ): Promise<void> {
   return createSemanticThemeTransition(event, callback, false, duration);
 }
@@ -149,7 +154,7 @@ export function createCircularTransition(
 export function createContractingTransition(
   event: React.MouseEvent,
   callback: () => void,
-  duration: number = 1200
+  duration: number = 1200,
 ): Promise<void> {
   return createSemanticThemeTransition(event, callback, true, duration);
 }
@@ -164,18 +169,18 @@ export function useAdvancedThemeTransition() {
         event: React.MouseEvent,
         callback: () => void,
         isCurrentlyDark: boolean,
-        duration?: number
+        duration?: number,
       ) => {
         createSemanticThemeTransition(
           event,
           callback,
           isCurrentlyDark,
-          duration
+          duration,
         );
       },
-      150
+      150,
     ),
-    []
+    [],
   );
 
   // Initialize theme transition effects
@@ -191,7 +196,10 @@ export function useAdvancedThemeTransition() {
  * Utility function to detect if browser supports View Transitions
  */
 export function supportsViewTransitions(): boolean {
-  return ("startViewTransition" in document) && typeof (document as any).startViewTransition === "function";
+  return (
+    "startViewTransition" in document &&
+    typeof (document as any).startViewTransition === "function"
+  );
 }
 
 /**
@@ -205,7 +213,7 @@ export function prefersReducedMotion(): boolean {
  * Get optimal transition duration based on user preferences
  */
 export function getOptimalTransitionDuration(
-  defaultDuration: number = 1200
+  defaultDuration: number = 1200,
 ): number {
   if (prefersReducedMotion()) {
     return 0;
@@ -230,7 +238,7 @@ export function createConfigurableThemeTransition(
   event: React.MouseEvent,
   callback: () => void,
   isCurrentlyDark: boolean, // Kept for backward compatibility, not used in expanding-only mode
-  config: ThemeTransitionConfig = {}
+  config: ThemeTransitionConfig = {},
 ): Promise<void> {
   const {
     duration = 1200, // Updated to match the slower transition
@@ -271,7 +279,7 @@ export function createConfigurableThemeTransition(
     const endRadius =
       Math.hypot(
         Math.max(x, window.innerWidth - x),
-        Math.max(y, window.innerHeight - y)
+        Math.max(y, window.innerHeight - y),
       ) * 1.2;
 
     const transition = (document as any).startViewTransition(callback);
@@ -291,7 +299,7 @@ export function createConfigurableThemeTransition(
             duration,
             easing,
             pseudoElement: "::view-transition-new(root)", // Always animate the new theme
-          }
+          },
         );
 
         animation.addEventListener("finish", () => resolve());
@@ -304,7 +312,8 @@ export function createConfigurableThemeTransition(
 }
 
 // Make both functions available globally for the ThemeToggle component
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   (window as any).createSemanticThemeTransition = createSemanticThemeTransition;
-  (window as any).createConfigurableThemeTransition = createConfigurableThemeTransition;
+  (window as any).createConfigurableThemeTransition =
+    createConfigurableThemeTransition;
 }

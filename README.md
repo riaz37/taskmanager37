@@ -1,135 +1,194 @@
-# Turborepo starter
+# 🚀 Task Manager - Completed in 5 Hours!
 
-This Turborepo starter is maintained by the Turborepo core team.
+A full-stack task management application built with Next.js, NestJS, and MongoDB. This project demonstrates rapid development capabilities with modern web technologies.
 
-## Using this example
+## ⚡ Project Overview
 
-Run the following command:
+**Task Manager** is a comprehensive web application that allows users to create, manage, and organize their tasks efficiently. Built with a focus on performance, user experience, and clean architecture.
 
-```sh
-npx create-turbo@latest
-```
+### 🎯 Key Features
 
-## What's inside?
+- **User Authentication**: Secure sign-up and sign-in with JWT tokens
+- **Task Management**: Create, edit, delete, and organize tasks
+- **Real-time Updates**: Instant task updates across the application
+- **Responsive Design**: Modern UI that works on all devices
+- **Dark/Light Theme**: Beautiful theme switching with smooth transitions
+- **Task Filtering**: Filter tasks by status, priority, and date
+- **Pagination**: Efficient task browsing with pagination support
 
-This Turborepo includes the following packages/apps:
+## 🏗️ Architecture
 
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
+This project follows a monorepo structure using **Turborepo** for efficient development and builds:
 
 ```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
+taskmanager37/
+├── apps/
+│   ├── server/          # NestJS Backend API
+│   └── web/            # Next.js Frontend
+├── packages/
+│   ├── ui/             # Shared UI Components
+│   ├── types/          # TypeScript Type Definitions
+│   ├── eslint-config/  # ESLint Configuration
+│   └── typescript-config/ # TypeScript Configuration
 ```
 
-You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+## 🛠️ Tech Stack
 
+### Frontend
+- **Next.js 14** - React framework with App Router
+- **TypeScript** - Type-safe development
+- **Tailwind CSS** - Utility-first CSS framework
+- **Shadcn/ui** - Beautiful, accessible UI components
+- **Axios** - HTTP client for API communication
+- **React Hook Form** - Form handling and validation
+- **Zod** - Schema validation
+
+### Backend
+- **NestJS** - Progressive Node.js framework
+- **MongoDB** - NoSQL database with Mongoose ODM
+- **JWT** - JSON Web Token authentication
+- **Passport.js** - Authentication middleware
+- **Class-validator** - DTO validation
+- **Swagger** - API documentation
+
+### Development Tools
+- **Turborepo** - Monorepo build system
+- **ESLint** - Code linting and formatting
+- **Prettier** - Code formatting
+- **pnpm** - Fast, disk space efficient package manager
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18+ 
+- pnpm (recommended) or npm
+- MongoDB instance
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd taskmanager37
+   ```
+
+2. **Install dependencies**
+   ```bash
+   pnpm install
+   ```
+
+3. **Environment Setup**
+   
+   Create `.env` files in both `apps/server` and `apps/web` directories:
+   
+   **Server (.env)**
+   ```env
+   MONGODB_URI=mongodb://localhost:27017/taskmanager
+   JWT_SECRET=your-secret-key
+   PORT=3001
+   ```
+   
+   **Web (.env.local)**
+   ```env
+   NEXT_PUBLIC_API_URL=http://localhost:3001
+   ```
+
+4. **Start the development servers**
+   ```bash
+   # Start both frontend and backend
+   pnpm dev
+   
+   # Or start individually
+   pnpm dev:web      # Frontend on http://localhost:3000
+   pnpm dev:server   # Backend on http://localhost:3001
+   ```
+
+## 📱 Usage
+
+1. **Sign Up**: Create a new account
+2. **Sign In**: Authenticate with your credentials
+3. **Dashboard**: View and manage your tasks
+4. **Create Tasks**: Add new tasks with title, description, and priority
+5. **Edit/Delete**: Modify or remove existing tasks
+6. **Filter & Search**: Organize tasks by various criteria
+7. **Theme Switch**: Toggle between light and dark modes
+
+## 🔧 API Endpoints
+
+### Authentication
+- `POST /auth/signup` - User registration
+- `POST /auth/signin` - User login
+
+### Tasks
+- `GET /tasks` - Get all tasks (with pagination)
+- `POST /tasks` - Create new task
+- `PUT /tasks/:id` - Update task
+- `DELETE /tasks/:id` - Delete task
+
+## 🎨 UI Components
+
+The project includes a comprehensive set of reusable UI components:
+
+- **Forms**: Input fields, buttons, labels, and validation
+- **Layout**: Cards, dialogs, sheets, and modals
+- **Navigation**: Tabs, dropdowns, and pagination
+- **Feedback**: Alerts, badges, and loading states
+- **Theme**: Dark/light mode toggle with smooth transitions
+
+## 🧪 Testing
+
+```bash
+# Run all tests
+pnpm test
+
+# Run specific test suites
+pnpm test:web      # Frontend tests
+pnpm test:server   # Backend tests
+pnpm test:e2e      # End-to-end tests
 ```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
+## 📦 Build & Deploy
+
+```bash
+# Build all applications
+pnpm build
+
+# Build specific apps
+pnpm build:web
+pnpm build:server
+
+# Production start
+pnpm start
 ```
 
-### Develop
+## 🌟 Project Highlights
 
-To develop all apps and packages, run the following command:
+- **Rapid Development**: Completed in just 5 hours
+- **Modern Architecture**: Clean separation of concerns
+- **Type Safety**: Full TypeScript coverage
+- **Responsive Design**: Mobile-first approach
+- **Performance**: Optimized builds with Turborepo
+- **Developer Experience**: Hot reload, linting, and formatting
 
-```
-cd my-turborepo
+## 🤝 Contributing
 
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
-```
+## 📄 License
 
-You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+This project is open source and available under the [MIT License](LICENSE).
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
+## 🙏 Acknowledgments
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
+- Built with modern web technologies
+- Inspired by productivity and task management needs
+- Special thanks to the open-source community
 
-### Remote Caching
+---
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+**Built with ❤️ in 5 hours** ⚡

@@ -47,7 +47,10 @@ export interface UseTasksReturn {
   setCurrentPage: (page: number) => void;
   setItemsPerPage: (items: number) => void;
   createTask: (data: import("./index").CreateTaskRequest) => Promise<void>;
-  updateTask: (id: string, data: import("./index").UpdateTaskRequest) => Promise<void>;
+  updateTask: (
+    id: string,
+    data: import("./index").UpdateTaskRequest,
+  ) => Promise<void>;
   deleteTask: (id: string) => Promise<void>;
   toggleTask: (id: string) => Promise<void>;
   refreshTasks: () => Promise<void>;
@@ -121,4 +124,4 @@ export interface DashboardLayoutProps {
 export interface CreateTaskDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-} 
+}

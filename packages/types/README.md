@@ -13,17 +13,17 @@ Shared TypeScript types for the TaskManager application. This package contains c
 
 ```typescript
 // Core types
-import { User, Task, CreateTaskRequest } from '@repo/types';
+import { User, Task, CreateTaskRequest } from "@repo/types";
 
 // React-specific types
-import { AuthContextType, TaskCardProps } from '@repo/types/react';
+import { AuthContextType, TaskCardProps } from "@repo/types/react";
 ```
 
 ### Backend (Express server)
 
 ```typescript
 // Core types
-import { User, Task, IUser, ITask } from '@repo/types';
+import { User, Task, IUser, ITask } from "@repo/types";
 ```
 
 ## Building
@@ -36,4 +36,4 @@ pnpm build
 
 ```bash
 pnpm dev  # Watch mode for development
-``` 
+```

@@ -2,8 +2,6 @@ import { useState, useEffect, useCallback } from "react";
 import { UseAuthReturn, UserData } from "@repo/types/react";
 import { authService } from "@/services/authService";
 
-
-
 export const useAuth = (): UseAuthReturn => {
   const [user, setUser] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -70,7 +68,7 @@ export const useAuth = (): UseAuthReturn => {
         setLoading(false);
       }
     },
-    []
+    [],
   );
 
   const logout = useCallback(async () => {
