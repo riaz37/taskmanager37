@@ -17,7 +17,7 @@ const LoadingState: React.FC<LoadingStateProps> = ({
 }) => {
   if (!showCards) {
     return (
-      <div className={`flex items-center justify-center ${className}`}>
+      <div className={`flex items-center justify-center min-h-[200px] ${className}`}>
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
           <p className="mt-4 text-gray-600">Loading...</p>
@@ -27,22 +27,24 @@ const LoadingState: React.FC<LoadingStateProps> = ({
   }
 
   return (
-    <div className={`space-y-4 ${className}`}>
-      {[...Array(count)].map((_, i) => (
-        <Card key={i}>
-          <CardContent className="p-6">
-            <div className="space-y-3">
-              <Skeleton className="h-6 w-3/4" />
-              <Skeleton className="h-4 w-1/2" />
-              <Skeleton className="h-4 w-full" />
-              <div className="flex space-x-2">
-                <Skeleton className="h-8 w-20" />
-                <Skeleton className="h-8 w-24" />
+    <div className={`flex flex-col items-center justify-center min-h-[200px] ${className}`}>
+      <div className="space-y-4 w-full max-w-2xl">
+        {[...Array(count)].map((_, i) => (
+          <Card key={i}>
+            <CardContent className="p-6">
+              <div className="space-y-3">
+                <Skeleton className="h-6 w-3/4" />
+                <Skeleton className="h-4 w-1/2" />
+                <Skeleton className="h-4 w-full" />
+                <div className="flex space-x-2">
+                  <Skeleton className="h-8 w-20" />
+                  <Skeleton className="h-8 w-24" />
+                </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
-      ))}
+            </CardContent>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 };

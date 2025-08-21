@@ -151,8 +151,7 @@ export default function RootLayout({
                     color: "hsl(var(--card-foreground))",
                     border: "1px solid hsl(var(--border))",
                     borderRadius: "var(--radius-lg)",
-                    boxShadow: "var(--shadow-xl)",
-                    backdropFilter: "blur(16px) saturate(180%)",
+                    boxShadow: "var(--shadow-lg)",
                   },
                 }}
               />

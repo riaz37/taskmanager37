@@ -52,17 +52,17 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout, onCreateTask }) => {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full glass-header border-b border-border/50">
+    <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur-sm border-b border-border/50">
       <div className="container-modern">
         <div className="flex h-16 items-center justify-between gap-4">
           {/* Brand Section */}
           <div className="flex items-center space-x-4 min-w-0">
             <div className="flex items-center space-x-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary via-primary-hover to-accent shadow-lg ring-1 ring-primary/20">
-                <Sparkles className="h-5 w-5 text-primary-foreground animate-pulse" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+                <Sparkles className="h-5 w-5" />
               </div>
               <div className="hidden sm:flex flex-col min-w-0">
-                <h1 className="text-xl font-bold tracking-tight text-foreground truncate">
+                <h1 className="text-xl font-semibold tracking-tight text-foreground truncate">
                   TaskFlow
                 </h1>
                 <p className="text-xs text-muted-foreground truncate">
@@ -79,10 +79,10 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout, onCreateTask }) => {
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
                   type="text"
-                  placeholder="Search tasks, projects, or team members..."
+                  placeholder="Search tasks, projects..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full h-10 pl-10 pr-12 bg-background/50 border-border/60 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg text-sm placeholder:text-muted-foreground/70"
+                  className="w-full h-9 pl-10 pr-12"
                 />
                 <div className="absolute right-3 top-1/2 -translate-y-1/2">
                   <Badge variant="outline" className="px-1.5 py-0.5 text-xs font-mono">
