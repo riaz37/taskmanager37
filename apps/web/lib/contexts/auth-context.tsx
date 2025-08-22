@@ -42,6 +42,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           tokenLength: storedToken?.length 
         });
         
+        // Debug: Check localStorage directly
+        if (typeof window !== 'undefined') {
+          console.log("🔍 Direct localStorage check:", {
+            authToken: localStorage.getItem('auth_token'),
+            userData: localStorage.getItem('user_data')
+          });
+        }
+        
         if (storedUser && storedToken) {
           console.log("✅ Found stored user data, setting user state");
           setUser(storedUser);

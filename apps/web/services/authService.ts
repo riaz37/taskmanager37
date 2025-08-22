@@ -59,10 +59,16 @@ class AuthService {
   async register(data: RegisterRequest): Promise<AuthResponse> {
     const response = await apiClient.post<AuthResponse>("/api/auth/register", data);
     
+    console.log("🔍 Register response structure:", response);
+    
     // Store token and user data in localStorage
     if (response.token) {
       this.setToken(response.token);
       this.setUser(response.user);
+      console.log("💾 Registration auth data stored in localStorage");
+    } else {
+      console.warn("⚠️ No token received in registration response");
+      console.warn("⚠️ Response structure:", response);
     }
     
     return response;
@@ -76,6 +82,7 @@ class AuthService {
       const response = await apiClient.post<AuthResponse>("/api/auth/login", data);
       
       console.log("✅ Login successful:", response.user.email);
+      console.log("🔍 Response structure:", response);
       
       // Store token and user data in localStorage
       if (response.token) {
@@ -84,6 +91,7 @@ class AuthService {
         console.log("💾 Auth data stored in localStorage");
       } else {
         console.warn("⚠️ No token received in login response");
+        console.warn("⚠️ Response structure:", response);
       }
       
       return response;
