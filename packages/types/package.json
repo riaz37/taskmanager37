@@ -6,9 +6,9 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "prebuild": "echo 'Building types package...'",
-    "build": "tsc --project tsconfig.json",
-    "dev": "tsc --watch",
-    "check-types": "tsc --noEmit"
+    "build": "npx tsc --project tsconfig.json",
+    "dev": "npx tsc --watch",
+    "check-types": "npx tsc --noEmit"
   },
   "dependencies": {
     "react": "^19"
