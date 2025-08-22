@@ -1,6 +1,5 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
-import * as cookieParser from 'cookie-parser';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -14,16 +13,13 @@ async function bootstrap() {
 
   console.log('Allowed CORS origins:', allowedOrigins);
 
-  // Enable CORS
+  // Enable CORS - no credentials needed for Authorization header auth
   app.enableCors({
     origin: allowedOrigins,
     credentials: false,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   });
-
-  // Enable cookie parsing (for backward compatibility)
-  app.use(cookieParser());
 
   // Global validation pipe
   app.useGlobalPipes(
@@ -44,5 +40,6 @@ async function bootstrap() {
   console.log(`🚀 Application is running on: http://${host}:${port}`);
   console.log(`🌐 API Base URL: http://${host}:${port}/api`);
   console.log(`🔒 CORS enabled for origins: ${allowedOrigins.join(', ')}`);
+  console.log(`🔑 Authentication: JWT via Authorization header only`);
 }
 bootstrap();

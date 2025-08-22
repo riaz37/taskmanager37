@@ -7,9 +7,7 @@ import {
   UseGuards,
   Get,
   Request,
-  Res,
 } from '@nestjs/common';
-import { Response } from 'express';
 import { AuthService } from './auth.service';
 import { LoginDto, RegisterDto } from '../dto/auth.dto';
 import { AuthResponse, ApiResponse, UserData } from '@repo/types';
@@ -22,7 +20,6 @@ export class AuthController {
   @Post('register')
   async register(
     @Body() registerDto: RegisterDto,
-    @Res({ passthrough: true }) res: Response,
   ): Promise<ApiResponse<AuthResponse>> {
     try {
       const result = await this.authService.register(registerDto);
@@ -46,7 +43,6 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   async login(
     @Body() loginDto: LoginDto,
-    @Res({ passthrough: true }) res: Response,
   ): Promise<ApiResponse<AuthResponse>> {
     try {
       const result = await this.authService.login(loginDto);
@@ -68,12 +64,9 @@ export class AuthController {
 
   @Post('logout')
   @HttpCode(HttpStatus.OK)
-  async logout(
-    @Res({ passthrough: true }) res: Response,
-  ): Promise<ApiResponse<null>> {
-    // Clear the auth cookie (for backward compatibility)
-    res.clearCookie('auth_token', { path: '/' });
-
+  async logout(): Promise<ApiResponse<null>> {
+    // No server-side session to clear - just return success
+    // Client will clear localStorage on their end
     return {
       success: true,
       data: null,
