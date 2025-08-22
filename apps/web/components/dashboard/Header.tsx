@@ -41,7 +41,6 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout, onCreateTask }) => {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     // TODO: Implement search functionality
-    console.log("Search query:", searchQuery);
   };
 
   const handleCreateTaskClick = () => {

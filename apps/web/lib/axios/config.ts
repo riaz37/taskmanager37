@@ -26,13 +26,7 @@ export const getApiConfig = () => {
   }
 
   // Log configuration for debugging
-  console.log("🔧 API Configuration:", {
-    environment: process.env.NODE_ENV,
-    baseURL,
-    timeout: isProduction ? 15000 : API_CONFIG.timeout,
-    hasApiUrl: !!process.env.NEXT_PUBLIC_API_URL,
-    apiUrlValue: process.env.NEXT_PUBLIC_API_URL || "NOT SET",
-  });
+  // Configuration logging disabled for production
 
   return {
     ...API_CONFIG,

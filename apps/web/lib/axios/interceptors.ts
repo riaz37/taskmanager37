@@ -32,14 +32,7 @@ export const setupRequestInterceptor = (axiosInstance: AxiosInstance) => {
 
       // Log request in development
       if (process.env.NODE_ENV === "development") {
-        console.log(
-          `🚀 API Request: ${config.method?.toUpperCase()} ${config.url}`,
-          {
-            data: config.data,
-            params: config.params,
-            headers: config.headers,
-          },
-        );
+        // Request logging disabled for production
       }
 
       return config;
@@ -65,14 +58,7 @@ export const setupResponseInterceptor = (axiosInstance: AxiosInstance) => {
 
       // Log response in development
       if (process.env.NODE_ENV === "development") {
-        console.log(
-          `✅ API Response: ${response.config.method?.toUpperCase()} ${response.config.url}`,
-          {
-            status: response.status,
-            responseTime: `${responseTime}ms`,
-            data: response.data,
-          },
-        );
+        // Response logging disabled for production
       }
 
       // Check if the response indicates an error from our API

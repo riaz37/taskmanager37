@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
-import { UseAuthReturn, UserData } from "@repo/types/react";
+import { UseAuthReturn } from "@repo/types/src/react";
 import { authService } from "@/services/authService";
+import { UserData } from "@repo/types";
 
 export const useAuth = (): UseAuthReturn => {
   const [user, setUser] = useState<UserData | null>(null);
@@ -68,7 +69,7 @@ export const useAuth = (): UseAuthReturn => {
         setLoading(false);
       }
     },
-    [],
+    []
   );
 
   const logout = useCallback(async () => {

@@ -59,19 +59,12 @@ class AuthService {
   async register(data: RegisterRequest): Promise<AuthResponse> {
     const response = await apiClient.post<AuthResponse>("/api/auth/register", data);
     
-    console.log("🔍 Register response structure:", response);
-    
     // The apiClient.post() already extracts response.data.data, so response is directly { user: {...}, token: "..." }
     if (response && response.token && response.user) {
       this.setToken(response.token);
       this.setUser(response.user);
-      console.log("💾 Registration auth data stored in localStorage");
-      console.log("🔑 Token stored:", response.token.substring(0, 20) + "...");
-      console.log("👤 User stored:", response.user.email);
     } else {
-      console.warn("⚠️ Invalid registration response structure:", response);
-      console.warn("⚠️ Expected: { user: {...}, token: '...' }");
-      console.warn("⚠️ Received:", JSON.stringify(response, null, 2));
+      console.warn("Invalid registration response structure:", response);
     }
     
     return response;
@@ -79,36 +72,19 @@ class AuthService {
 
   async login(data: AuthRequest): Promise<AuthResponse> {
     try {
-      console.log("🔐 Attempting login for:", data.email);
-      console.log("🌐 API URL:", process.env.NEXT_PUBLIC_API_URL || "NOT SET");
-      
       const response = await apiClient.post<AuthResponse>("/api/auth/login", data);
-      
-      console.log("✅ Login successful:", response.user.email);
-      console.log("🔍 Response structure:", response);
       
       // The apiClient.post() already extracts response.data.data, so response is directly { user: {...}, token: "..." }
       if (response && response.token && response.user) {
         this.setToken(response.token);
         this.setUser(response.user);
-        console.log("💾 Auth data stored in localStorage");
-        console.log("🔑 Token stored:", response.token.substring(0, 20) + "...");
-        console.log("👤 User stored:", response.user.email);
       } else {
-        console.warn("⚠️ Invalid response structure:", response);
-        console.warn("⚠️ Expected: { user: {...}, token: '...' }");
-        console.warn("⚠️ Received:", JSON.stringify(response, null, 2));
+        console.warn("Invalid response structure:", response);
       }
       
       return response;
     } catch (error: any) {
-      console.error("❌ Login failed:", error);
-      console.error("🔍 Error details:", {
-        message: error.message,
-        status: error.response?.status,
-        data: error.response?.data,
-        config: error.config
-      });
+      console.error("Login failed:", error);
       throw error;
     }
   }
