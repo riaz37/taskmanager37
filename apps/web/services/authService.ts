@@ -69,15 +69,34 @@ class AuthService {
   }
 
   async login(data: AuthRequest): Promise<AuthResponse> {
-    const response = await apiClient.post<AuthResponse>("/api/auth/login", data);
-    
-    // Store token and user data in localStorage
-    if (response.token) {
-      this.setToken(response.token);
-      this.setUser(response.user);
+    try {
+      console.log("🔐 Attempting login for:", data.email);
+      console.log("🌐 API URL:", process.env.NEXT_PUBLIC_API_URL || "NOT SET");
+      
+      const response = await apiClient.post<AuthResponse>("/api/auth/login", data);
+      
+      console.log("✅ Login successful:", response.user.email);
+      
+      // Store token and user data in localStorage
+      if (response.token) {
+        this.setToken(response.token);
+        this.setUser(response.user);
+        console.log("💾 Auth data stored in localStorage");
+      } else {
+        console.warn("⚠️ No token received in login response");
+      }
+      
+      return response;
+    } catch (error: any) {
+      console.error("❌ Login failed:", error);
+      console.error("🔍 Error details:", {
+        message: error.message,
+        status: error.response?.status,
+        data: error.response?.data,
+        config: error.config
+      });
+      throw error;
     }
-    
-    return response;
   }
 
   async logout(): Promise<void> {

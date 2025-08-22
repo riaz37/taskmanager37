@@ -29,25 +29,38 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Check if user is already authenticated on mount
     const checkAuth = async () => {
       try {
+        console.log("🔍 Checking authentication status...");
+        
         // First check localStorage for immediate user data
         const storedUser = authService.getUser();
         const storedToken = authService.getToken();
         
+        console.log("📦 Stored data:", { 
+          hasUser: !!storedUser, 
+          hasToken: !!storedToken,
+          user: storedUser?.email,
+          tokenLength: storedToken?.length 
+        });
+        
         if (storedUser && storedToken) {
+          console.log("✅ Found stored user data, setting user state");
           setUser(storedUser);
           setLoading(false);
           
           // Verify token with server in background
           try {
+            console.log("🔐 Verifying token with server...");
             const response = await authService.verifyToken();
             if (response.user) {
+              console.log("✅ Token verification successful, updating user data");
               // Update with fresh user data from server
               setUser(response.user);
               authService.setUser(response.user);
             }
           } catch (error) {
-            console.error("Token verification failed:", error);
+            console.error("❌ Token verification failed:", error);
             // Token is invalid, clear storage and redirect
+            console.log("🧹 Clearing invalid auth data and redirecting...");
             authService.clearAuth();
             setUser(null);
             if (typeof window !== "undefined") {
@@ -55,10 +68,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             }
           }
         } else {
+          console.log("❌ No stored auth data found");
           setLoading(false);
         }
       } catch (error) {
-        console.error("Auth check failed:", error);
+        console.error("❌ Auth check failed:", error);
         setLoading(false);
       }
     };
