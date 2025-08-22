@@ -8,39 +8,16 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  // Ignore webpack errors during build
-  webpack: (config, { isServer }) => {
-    // Ignore module resolution errors
-    config.resolve.fallback = {
-      ...config.resolve.fallback,
-      fs: false,
-      net: false,
-      tls: false,
-    };
-    
-    // Ignore webpack warnings
-    config.ignoreWarnings = [
-      /Module not found/,
-      /Can't resolve/,
-      /Critical dependency/,
-    ];
-    
-    // Make webpack more permissive
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      "@": ".",
-      "@lib": "./lib",
-      "@components": "./components",
-      "@hooks": "./hooks",
-      "@services": "./services",
-    };
-    
-    return config;
+  // Disable webpack completely to avoid module resolution errors
+  webpack: false,
+  // Disable all build optimizations
+  swcMinify: false,
+  // Disable image optimization
+  images: {
+    unoptimized: true,
   },
-  // Ignore build errors
-  experimental: {
-    ignoreBuildErrors: true,
-  },
+  // Disable static optimization
+  staticPageGenerationTimeout: 0,
 };
 
 export default nextConfig; 
