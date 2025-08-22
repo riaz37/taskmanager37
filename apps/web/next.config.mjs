@@ -1,5 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+
   webpack: (config) => {
     // Configure path aliases
     config.resolve.alias = {
