@@ -139,7 +139,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout, onCreateTask }) => {
             </Button>
 
             {/* Theme Toggle */}
-            <ThemeToggle />
+              <ThemeToggle />
 
             {/* User Menu */}
             <DropdownMenu>
@@ -202,7 +202,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout, onCreateTask }) => {
                       <span className="font-medium">Preferences</span>
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
-
+                  
                   <DropdownMenuSeparator className="my-2" />
                   
                   {/* Sign Out */}

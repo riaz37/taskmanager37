@@ -100,19 +100,19 @@ export default function Home() {
               
               {/* Auth Buttons */}
               <div className="hidden sm:flex items-center space-x-3">
-                <Button
-                  variant="ghost"
-                  onClick={() => router.push("/auth/sign-in")}
+              <Button
+                variant="ghost"
+                onClick={() => router.push("/auth/sign-in")}
                   className="h-10 px-6 font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all duration-200"
-                >
-                  Sign In
-                </Button>
-                <Button
-                  onClick={() => router.push("/auth/sign-up")}
+              >
+                Sign In
+              </Button>
+              <Button
+                onClick={() => router.push("/auth/sign-up")}
                   className="btn-blue-primary h-10 px-6 font-medium shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
-                >
-                  Get Started
-                  <ArrowRight className="ml-2 h-4 w-4" />
+              >
+                Get Started
+                <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </div>
 

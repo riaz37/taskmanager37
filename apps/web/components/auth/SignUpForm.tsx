@@ -222,11 +222,11 @@ const SignUpForm: React.FC = () => {
                 />
 
                 <div className="pt-2">
-                  <Button
-                    type="submit"
+                <Button
+                  type="submit"
                     className="btn-blue-primary w-full h-12 text-base font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
-                    disabled={isLoading}
-                  >
+                  disabled={isLoading}
+                >
                     {isLoading ? (
                       <>
                         <Loader2 className="mr-2 h-5 w-5 animate-spin" />
@@ -235,10 +235,10 @@ const SignUpForm: React.FC = () => {
                     ) : (
                       <>
                         <UserPlus className="mr-2 h-5 w-5" />
-                        Create Account
+                  Create Account
                       </>
                     )}
-                  </Button>
+                </Button>
                 </div>
               </form>
             </Form>
@@ -249,22 +249,22 @@ const SignUpForm: React.FC = () => {
         <div className="text-center space-y-6">
           <div className="space-y-4">
             <p className="text-base text-muted-foreground">
-              Already have an account?{" "}
-              <Link 
-                href="/auth/sign-in" 
-                className="font-semibold text-primary hover:text-primary-light transition-colors duration-200 hover:underline"
-              >
-                Sign in here
-              </Link>
-            </p>
-            
+            Already have an account?{" "}
             <Link 
-              href="/" 
-              className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 group"
+              href="/auth/sign-in" 
+                className="font-semibold text-primary hover:text-primary-light transition-colors duration-200 hover:underline"
             >
-              <ArrowLeft className="mr-2 h-4 w-4 group-hover:-translate-x-1 transition-transform duration-200" />
-              Back to home
+                Sign in here
             </Link>
+          </p>
+          
+          <Link 
+            href="/" 
+              className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 group"
+          >
+              <ArrowLeft className="mr-2 h-4 w-4 group-hover:-translate-x-1 transition-transform duration-200" />
+            Back to home
+          </Link>
           </div>
 
           {/* Features */}

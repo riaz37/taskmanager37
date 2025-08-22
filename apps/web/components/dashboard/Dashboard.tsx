@@ -144,16 +144,16 @@ const Dashboard: React.FC = () => {
         onCreateTask={handleCreateTask}
       />
       
-      {/* Welcome Section */}
+          {/* Welcome Section */}
       <div className="bg-gradient-to-r from-primary/5 via-accent/5 to-primary/5 rounded-2xl p-8 border border-primary/10">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
           <div className="space-y-2">
             <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               Welcome back, {user.name.split(' ')[0]}! 👋
-            </h1>
+              </h1>
             <p className="text-lg text-muted-foreground max-w-2xl">
               Here's what's happening with your tasks today. You're making great progress!
-            </p>
+              </p>
             <div className="flex items-center space-x-4 pt-2">
               <div className="flex items-center space-x-2">
                 <div className="w-3 h-3 bg-success rounded-full animate-pulse"></div>
@@ -171,26 +171,26 @@ const Dashboard: React.FC = () => {
             className="btn-blue-primary shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
           >
             <Plus className="mr-2 h-5 w-5" />
-            New Task
-          </Button>
+              New Task
+            </Button>
         </div>
-      </div>
+          </div>
 
-      {/* Stats Cards */}
+          {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {statsCards.map((stat, index) => (
+            {statsCards.map((stat, index) => (
           <Card key={index} className="card-blue-primary hover:scale-105 transition-all duration-300">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                {stat.title}
-              </CardTitle>
+                  <CardTitle className="text-sm font-medium text-muted-foreground">
+                    {stat.title}
+                  </CardTitle>
               <div className={`p-2 rounded-lg ${stat.bgColor} ${stat.borderColor} border`}>
                 <div className={stat.color}>
-                  {stat.icon}
+                    {stat.icon}
                 </div>
-              </div>
-            </CardHeader>
-            <CardContent>
+                  </div>
+                </CardHeader>
+                <CardContent>
               <div className="text-3xl font-bold text-foreground">{stat.value}</div>
               {stat.title === "Total Tasks" && completionRate > 0 && (
                 <div className="mt-2">
@@ -205,10 +205,10 @@ const Dashboard: React.FC = () => {
                   </div>
                 </div>
               )}
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
 
       {/* Quick Actions */}
       <div className="space-y-4">
@@ -237,14 +237,14 @@ const Dashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* Tasks Section */}
+          {/* Tasks Section */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-xl font-semibold text-foreground">Your Tasks</h2>
-            <p className="text-sm text-muted-foreground">
-              Manage and organize your tasks efficiently
-            </p>
+              <p className="text-sm text-muted-foreground">
+                Manage and organize your tasks efficiently
+              </p>
           </div>
           <div className="flex items-center space-x-2">
             <Button 
@@ -263,20 +263,20 @@ const Dashboard: React.FC = () => {
               Add Task
             </Button>
           </div>
-        </div>
+            </div>
 
         <div className="card-blue-primary">
           <div className="p-6">
-            <Suspense fallback={<LoadingState />}>
-              {loading ? (
-                <LoadingState />
-              ) : (
-                <TaskList {...tasksHook} />
-              )}
-            </Suspense>
+              <Suspense fallback={<LoadingState />}>
+                {loading ? (
+                  <LoadingState />
+                ) : (
+                  <TaskList {...tasksHook} />
+                )}
+              </Suspense>
+            </div>
           </div>
         </div>
-      </div>
 
       {/* Create Task Dialog */}
       <Suspense fallback={null}>
