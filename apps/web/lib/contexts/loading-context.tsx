@@ -1,6 +1,6 @@
 "use client";
 
-import { LoadingContextType, LoadingProviderProps } from "@repo/types/react";
+import { LoadingContextType, LoadingProviderProps } from "@repo/types/src/react";
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
 const LoadingContext = createContext<LoadingContextType | undefined>(undefined);
