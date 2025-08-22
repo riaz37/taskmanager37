@@ -42,6 +42,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           tokenLength: storedToken?.length 
         });
         
+        // Debug: Check raw localStorage values
+        if (typeof window !== 'undefined') {
+          const rawToken = localStorage.getItem('auth_token');
+          const rawUser = localStorage.getItem('user_data');
+          console.log("🔍 Raw localStorage values:", {
+            rawToken: rawToken ? rawToken.substring(0, 20) + "..." : null,
+            rawUser: rawUser ? JSON.parse(rawUser)?.email : null
+          });
+        }
+        
         // Debug: Check localStorage directly
         if (typeof window !== 'undefined') {
           console.log("🔍 Direct localStorage check:", {
@@ -91,10 +101,27 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const login = async (email: string, password: string) => {
     try {
       setLoading(true);
+      console.log("🚀 Starting login for:", email);
+      
       const response = await authService.login({ email, password });
+      console.log("✅ Login successful, response:", response);
+      
+      // Set user state
       setUser(response.user);
+      console.log("👤 User state set:", response.user.email);
+      
+      // Verify that data was stored in localStorage
+      const storedToken = authService.getToken();
+      const storedUser = authService.getUser();
+      console.log("🔍 Verification - Stored token:", storedToken ? "YES" : "NO");
+      console.log("🔍 Verification - Stored user:", storedUser ? "YES" : "NO");
+      
+      // Add a small delay to ensure localStorage is updated
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
       // Redirect to dashboard after successful login
       if (typeof window !== "undefined") {
+        console.log("🔄 Redirecting to dashboard...");
         window.location.href = "/dashboard";
       }
     } catch (error) {
@@ -108,10 +135,27 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const register = async (name: string, email: string, password: string) => {
     try {
       setLoading(true);
+      console.log("🚀 Starting registration for:", email);
+      
       const response = await authService.register({ name, email, password });
+      console.log("✅ Registration successful, response:", response);
+      
+      // Set user state
       setUser(response.user);
+      console.log("👤 User state set:", response.user.email);
+      
+      // Verify that data was stored in localStorage
+      const storedToken = authService.getToken();
+      const storedUser = authService.getUser();
+      console.log("🔍 Verification - Stored token:", storedToken ? "YES" : "NO");
+      console.log("🔍 Verification - Stored user:", storedUser ? "YES" : "NO");
+      
+      // Add a small delay to ensure localStorage is updated
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
       // Redirect to dashboard after successful registration
       if (typeof window !== "undefined") {
+        console.log("🔄 Redirecting to dashboard...");
         window.location.href = "/dashboard";
       }
     } catch (error) {

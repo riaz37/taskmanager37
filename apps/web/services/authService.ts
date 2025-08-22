@@ -61,14 +61,17 @@ class AuthService {
     
     console.log("🔍 Register response structure:", response);
     
-    // Store token and user data in localStorage
-    if (response.token) {
+    // The apiClient.post() already extracts response.data.data, so response is directly { user: {...}, token: "..." }
+    if (response && response.token && response.user) {
       this.setToken(response.token);
       this.setUser(response.user);
       console.log("💾 Registration auth data stored in localStorage");
+      console.log("🔑 Token stored:", response.token.substring(0, 20) + "...");
+      console.log("👤 User stored:", response.user.email);
     } else {
-      console.warn("⚠️ No token received in registration response");
-      console.warn("⚠️ Response structure:", response);
+      console.warn("⚠️ Invalid registration response structure:", response);
+      console.warn("⚠️ Expected: { user: {...}, token: '...' }");
+      console.warn("⚠️ Received:", JSON.stringify(response, null, 2));
     }
     
     return response;
@@ -84,14 +87,17 @@ class AuthService {
       console.log("✅ Login successful:", response.user.email);
       console.log("🔍 Response structure:", response);
       
-      // Store token and user data in localStorage
-      if (response.token) {
+      // The apiClient.post() already extracts response.data.data, so response is directly { user: {...}, token: "..." }
+      if (response && response.token && response.user) {
         this.setToken(response.token);
         this.setUser(response.user);
         console.log("💾 Auth data stored in localStorage");
+        console.log("🔑 Token stored:", response.token.substring(0, 20) + "...");
+        console.log("👤 User stored:", response.user.email);
       } else {
-        console.warn("⚠️ No token received in login response");
-        console.warn("⚠️ Response structure:", response);
+        console.warn("⚠️ Invalid response structure:", response);
+        console.warn("⚠️ Expected: { user: {...}, token: '...' }");
+        console.warn("⚠️ Received:", JSON.stringify(response, null, 2));
       }
       
       return response;
