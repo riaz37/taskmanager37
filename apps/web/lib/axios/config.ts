@@ -2,7 +2,7 @@
 export const API_CONFIG = {
   baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api",
   timeout: 10000, // 10 seconds
-  withCredentials: true, // Include cookies in requests
+  withCredentials: false, // No longer using cookies for authentication
 };
 
 // Environment-specific configurations

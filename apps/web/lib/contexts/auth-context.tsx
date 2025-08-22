@@ -29,13 +29,36 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Check if user is already authenticated on mount
     const checkAuth = async () => {
       try {
-        const response = await authService.verifyToken();
-        if (response.user) {
-          setUser(response.user);
+        // First check localStorage for immediate user data
+        const storedUser = authService.getUser();
+        const storedToken = authService.getToken();
+        
+        if (storedUser && storedToken) {
+          setUser(storedUser);
+          setLoading(false);
+          
+          // Verify token with server in background
+          try {
+            const response = await authService.verifyToken();
+            if (response.user) {
+              // Update with fresh user data from server
+              setUser(response.user);
+              authService.setUser(response.user);
+            }
+          } catch (error) {
+            console.error("Token verification failed:", error);
+            // Token is invalid, clear storage and redirect
+            authService.clearAuth();
+            setUser(null);
+            if (typeof window !== "undefined") {
+              window.location.href = "/auth/sign-in";
+            }
+          }
+        } else {
+          setLoading(false);
         }
       } catch (error) {
         console.error("Auth check failed:", error);
-      } finally {
         setLoading(false);
       }
     };
@@ -79,6 +102,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const logout = async () => {
     try {
+      setLoading(true);
       await authService.logout();
       setUser(null);
       // Redirect to sign-in page after logout
@@ -87,10 +111,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
     } catch (error) {
       console.error("Logout failed:", error);
-      // Still redirect even if logout API fails
+      // Still clear user state and redirect even if logout API fails
+      setUser(null);
       if (typeof window !== "undefined") {
         window.location.href = "/auth/sign-in";
       }
+    } finally {
+      setLoading(false);
     }
   };
 

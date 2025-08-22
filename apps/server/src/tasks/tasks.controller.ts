@@ -27,10 +27,12 @@ export class TasksController {
       return {
         success: true,
         data: tasks,
+        message: 'Tasks retrieved successfully',
       };
     } catch (error) {
       return {
         success: false,
+        data: null,
         error: error.message,
       };
     }
@@ -51,6 +53,7 @@ export class TasksController {
     } catch (error) {
       return {
         success: false,
+        data: null,
         error: error.message,
       };
     }
@@ -72,6 +75,7 @@ export class TasksController {
     } catch (error) {
       return {
         success: false,
+        data: null,
         error: error.message,
       };
     }
@@ -86,11 +90,13 @@ export class TasksController {
       await this.tasksService.remove(id, req.user);
       return {
         success: true,
+        data: null,
         message: 'Task deleted successfully',
       };
     } catch (error) {
       return {
         success: false,
+        data: null,
         error: error.message,
       };
     }
@@ -111,6 +117,7 @@ export class TasksController {
     } catch (error) {
       return {
         success: false,
+        data: null,
         error: error.message,
       };
     }

@@ -3,23 +3,23 @@ import { apiClient } from "../lib/axios";
 
 class TaskService {
   async getTasks(): Promise<Task[]> {
-    return apiClient.get<Task[]>("/tasks");
+    return apiClient.get<Task[]>("/api/tasks");
   }
 
   async createTask(data: CreateTaskRequest): Promise<Task> {
-    return apiClient.post<Task>("/tasks", data);
+    return apiClient.post<Task>("/api/tasks", data);
   }
 
   async updateTask(id: string, data: UpdateTaskRequest): Promise<Task> {
-    return apiClient.put<Task>(`/tasks/${id}`, data);
+    return apiClient.put<Task>(`/api/tasks/${id}`, data);
   }
 
   async deleteTask(id: string): Promise<void> {
-    return apiClient.delete<void>(`/tasks/${id}`);
+    return apiClient.delete<void>(`/api/tasks/${id}`);
   }
 
   async toggleTask(id: string): Promise<Task> {
-    return apiClient.patch<Task>(`/tasks/${id}/toggle`);
+    return apiClient.patch<Task>(`/api/tasks/${id}/toggle`);
   }
 }
 

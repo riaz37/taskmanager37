@@ -9,10 +9,10 @@ async function bootstrap() {
   // Enable CORS
   app.enableCors({
     origin: process.env.FRONTEND_URL || 'http://localhost:3000',
-    credentials: true,
+    credentials: false, //
   });
 
-  // Enable cookie parsing
+  // Enable cookie parsing (for backward compatibility)
   app.use(cookieParser());
 
   // Global validation pipe

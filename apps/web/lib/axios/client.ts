@@ -52,12 +52,13 @@ export const apiClient = {
       });
   },
 
-  // DELETE request - extracts data from response
-  delete: <T = any>(url: string, config?: AxiosRequestConfig): Promise<T> => {
+  // DELETE request - handles response without extracting data
+  delete: <T = any>(url: string, config?: AxiosRequestConfig): Promise<void> => {
     return axiosInstance
-      .delete<ApiResponse<T>>(url, config)
-      .then((response) => {
-        return response.data.data as T;
+      .delete<ApiResponse<null>>(url, config)
+      .then(() => {
+        // Delete operations don't return data, just confirm success
+        return;
       });
   },
 

@@ -23,29 +23,20 @@ export class AuthController {
   async register(
     @Body() registerDto: RegisterDto,
     @Res({ passthrough: true }) res: Response,
-  ): Promise<ApiResponse<Omit<AuthResponse, 'token'>>> {
+  ): Promise<ApiResponse<AuthResponse>> {
     try {
       const result = await this.authService.register(registerDto);
 
-      // Set HTTP-only cookie with JWT token
-      res.cookie('auth_token', result.token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict',
-        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-        path: '/',
-      });
-
-      // Return response without token in body
-      const { token, ...userData } = result;
+      // Return response with token in body for localStorage storage
       return {
         success: true,
-        data: userData,
+        data: result,
         message: 'User registered successfully',
       };
     } catch (error) {
       return {
         success: false,
+        data: null,
         error: error.message,
       };
     }
@@ -56,29 +47,20 @@ export class AuthController {
   async login(
     @Body() loginDto: LoginDto,
     @Res({ passthrough: true }) res: Response,
-  ): Promise<ApiResponse<Omit<AuthResponse, 'token'>>> {
+  ): Promise<ApiResponse<AuthResponse>> {
     try {
       const result = await this.authService.login(loginDto);
 
-      // Set HTTP-only cookie with JWT token
-      res.cookie('auth_token', result.token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict',
-        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-        path: '/',
-      });
-
-      // Return response without token in body
-      const { token, ...userData } = result;
+      // Return response with token in body for localStorage storage
       return {
         success: true,
-        data: userData,
+        data: result,
         message: 'Login successful',
       };
     } catch (error) {
       return {
         success: false,
+        data: null,
         error: error.message,
       };
     }
@@ -89,11 +71,12 @@ export class AuthController {
   async logout(
     @Res({ passthrough: true }) res: Response,
   ): Promise<ApiResponse<null>> {
-    // Clear the auth cookie
+    // Clear the auth cookie (for backward compatibility)
     res.clearCookie('auth_token', { path: '/' });
 
     return {
       success: true,
+      data: null,
       message: 'Logout successful',
     };
   }

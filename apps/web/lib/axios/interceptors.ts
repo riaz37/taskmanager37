@@ -11,13 +11,10 @@ interface ExtendedAxiosRequestConfig extends InternalAxiosRequestConfig {
   metadata?: { startTime: Date };
 }
 
-// Helper function to get cookie value
-const getCookie = (name: string): string | null => {
-  if (typeof document === "undefined") return null;
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop()?.split(";").shift() || null;
-  return null;
+// Helper function to get token from localStorage
+const getAuthToken = (): string | null => {
+  if (typeof window === "undefined") return null;
+  return localStorage.getItem('auth_token');
 };
 
 // Request interceptor
@@ -27,8 +24,8 @@ export const setupRequestInterceptor = (axiosInstance: AxiosInstance) => {
       // Add request timestamp for debugging
       config.metadata = { startTime: new Date() };
 
-      // Add JWT token to Authorization header if available in cookies
-      const token = getCookie("auth_token");
+      // Add JWT token to Authorization header if available in localStorage
+      const token = getAuthToken();
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
@@ -119,8 +116,13 @@ export const setupResponseInterceptor = (axiosInstance: AxiosInstance) => {
 
         switch (status) {
           case 401:
-            // Unauthorized - server will handle cookie cleanup
-            // You could trigger a redirect here or emit an event
+            // Unauthorized - clear localStorage and redirect to login
+            if (typeof window !== "undefined") {
+              localStorage.removeItem('auth_token');
+              localStorage.removeItem('user_data');
+              // You could trigger a redirect here or emit an event
+              window.location.href = '/auth/sign-in';
+            }
             break;
           case 422:
             // Validation error - create specific validation error
