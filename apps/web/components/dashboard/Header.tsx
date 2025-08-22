@@ -44,6 +44,11 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout, onCreateTask }) => {
     console.log("Search query:", searchQuery);
   };
 
+  const handleCreateTaskClick = () => {
+    // Dispatch custom event to communicate with Dashboard component
+    window.dispatchEvent(new CustomEvent('create-task'));
+  };
+
   return (
     <header className="sticky top-0 z-40 w-full bg-background/95 backdrop-blur-sm border-b border-border/50">
       <div className="px-4 sm:px-6 lg:px-8">
@@ -130,7 +135,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout, onCreateTask }) => {
 
             {/* Create Task Button */}
             <Button 
-              onClick={onCreateTask} 
+              onClick={handleCreateTaskClick} 
               size="default" 
               className="btn-blue-primary shadow-lg hover:shadow-xl transition-all duration-200"
             >

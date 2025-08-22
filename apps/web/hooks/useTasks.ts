@@ -178,7 +178,7 @@ export const useTasks = (): UseTasksReturn => {
   }, []);
 
   return {
-    tasks,
+    tasks: paginatedTasks, 
     filteredTasks,
     loading,
     error,
