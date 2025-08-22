@@ -5,7 +5,8 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "prebuild": "echo 'Building types package...'",
+    "build": "tsc --project tsconfig.json",
     "dev": "tsc --watch",
     "check-types": "tsc --noEmit"
   },
