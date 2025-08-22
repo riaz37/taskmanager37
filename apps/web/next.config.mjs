@@ -6,9 +6,7 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  webpack: {
-    ignoreBuildErrors: true,
-  },
+  webpack: false,
 };
 
 export default nextConfig;
